@@ -128,6 +128,94 @@ D:\aiworkspace\yolo\weights\yolo26n.pt
 
 动漫图片将作为零样本检测的特色案例，但项目不会声称能够可靠区分喜羊羊、美羊羊等具体角色。检测到 `cartoon sheep` 不等于完成角色身份识别。
 
+## 2026-09-11：项目骨架与 GitHub 代码管理
+
+### 学习目标
+
+建立清晰的项目目录，用 Git 保存开发历史，并把安全的项目骨架推送到 GitHub。
+
+### 学到的知识
+
+1. Git 保存的是一次次可恢复的项目状态，GitHub 是远程代码托管平台。
+2. `.gitignore` 用于阻止本地环境、模型权重、数据集、运行结果和密钥进入版本库。
+3. `.gitkeep` 是用于保留空目录的普通占位文件，不是 Git 的特殊语法。
+4. `git status --short` 用于快速查看修改；`git check-ignore -v` 可以说明文件被哪条规则忽略。
+5. `origin` 是远程仓库的常用别名，`main` 是当前主分支。
+6. 小而清晰的提交比一次提交大量无关修改更容易理解和回退。
+
+### 亲手完成的工作
+
+- 建立 `src`、`tests`、`benchmarks`、`assets` 和 `docs` 等项目目录。
+- 编写 `.gitignore`，确认 `.venv`、`yolo26n.pt` 和 `runs` 结果不会上传。
+- 编写项目首页 `README.md`。
+- 初始化本地 Git 仓库并建立 `main` 分支。
+- 添加 AGPL-3.0 许可证。
+- 创建并连接 GitHub 仓库：`IniJyou/yolo26-zero-shot-vision-studio`。
+- 将本地提交推送到 `origin/main`。
+
+### 提交记录
+
+```text
+58f3b8f chore: initialize project structure
+73c4d8d docs: add AGPL-3.0 license
+```
+
+## 2026-09-11：VS Code 环境与 Python 图片推理
+
+### 学习目标
+
+在 VS Code 中使用项目虚拟环境运行 Python，并通过代码读取 YOLO26 的结构化检测结果。
+
+### 遇到的问题与解决方法
+
+VS Code 曾提示“无法解析导入 ultralytics”。实际原因不是安装失败，而是编辑器使用了全局 Python：
+
+```text
+D:\python\python.exe
+```
+
+Ultralytics 安装在项目虚拟环境：
+
+```text
+D:\aiworkspace\yolo\.venv\Scripts\python.exe
+```
+
+通过 VS Code 的 `Python: Select Interpreter` 选择 `.venv` 解释器并重新加载窗口后，导入警告消失。
+
+终端是否显示 `(.venv)` 与 VS Code 代码分析器选择哪个解释器是两个相关但独立的状态。运行项目文件应使用 Python 扩展提供的 `Run Python File`，避免其他运行扩展绕过虚拟环境。
+
+### 亲手完成的工作
+
+- 创建 `examples/01_yolo26_image.py`。
+- 使用 `pathlib.Path` 从脚本位置计算项目根目录。
+- 从本地 `weights/yolo26n.pt` 加载 YOLO26n。
+- 使用 RTX 4060 对 `bus.jpg` 执行推理。
+- 遍历 `result.boxes`，读取类别、置信度与边界框。
+- 对坐标进行一位小数格式化。
+- 使用 VS Code 直接运行 Python 文件。
+
+### 代码知识
+
+- `Path(__file__).resolve().parents[1]` 可以稳定找到项目根目录，减少对当前工作目录的依赖。
+- Ultralytics 支持批量输入，因此 `model.predict()` 返回结果列表；单张图片使用 `results[0]`。
+- `box.cls` 是类别编号，`result.names[class_id]` 将编号映射为类别名称。
+- `box.conf` 是置信度，取值通常位于 0 到 1。
+- `box.xyxy` 表示 `[x1, y1, x2, y2]`，即左上角和右下角坐标。
+- `result.orig_shape` 的顺序是 `(height, width)`，不是 `(width, height)`。
+- 终端显示的 `640x480` 是推理输入尺寸，检测框坐标已经映射回原始图片尺寸。
+- `result.speed` 分别记录预处理、模型推理和后处理耗时。
+
+### 本次运行结果
+
+```text
+原图尺寸：(1080, 810)
+检测数量：5
+检测类别：4 persons，1 bus
+模型推理耗时：约 10.2 ms
+```
+
+本次单张图片运行包含首次调用波动，只能用于确认功能，不能作为最终性能指标。正式评测需要预热模型并重复运行多次。
+
 ## 三周学习与开发计划
 
 ### 第 1 周：图片推理基础
@@ -186,11 +274,12 @@ D:\aiworkspace\yolo\weights\yolo26n.pt
 - [x] 将配置、权重、数据集和结果放在 D 盘
 - [x] 制定三周项目计划
 - [x] 创建学习日志
-- [ ] 建立项目文件夹框架
-- [ ] 编写 `.gitignore`
-- [ ] 编写最小版 `README.md`
-- [ ] 初始化并上传 GitHub 仓库
-- [ ] 编写第一个 Python 推理程序
+- [x] 建立项目文件夹框架
+- [x] 编写 `.gitignore`
+- [x] 编写最小版 `README.md`
+- [x] 初始化并上传 GitHub 仓库
+- [x] 编写第一个 Python 推理程序
+- [ ] 将图片检测结果导出为 JSON
 
 ## 后续记录规范
 
