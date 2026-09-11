@@ -1,0 +1,36 @@
+# Python虚拟环境
+.venv/
+
+# Python运行缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# 编辑器配置
+.vscode/
+.idea/
+
+# 环境变量和密钥
+.env
+.env.*
+*.key
+
+# Ultralytics本地配置
+Ultralytics/
+
+# 模型权重
+weights/*
+!weights/.gitkeep
+
+# 本地数据集
+datasets/*
+!datasets/.gitkeep
+
+# 推理结果
+runs/*
+!runs/.gitkeep
+
+# 临时文件
+*.tmp
+*.log
