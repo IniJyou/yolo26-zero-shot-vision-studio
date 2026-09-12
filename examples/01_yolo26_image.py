@@ -1,24 +1,61 @@
 import json
 from pathlib import Path
 
+import torch
 from ultralytics import YOLO
 
 # 找到项目根目录
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+CONFIDENCE_THRESHOLD = 0.25 # 置信度阈值
+DEVICE = 0 if torch.cuda.is_available() else "cpu"
 
-# 准备输入、模型和输出路径
+SUPPORTED_IMAGE_SUFFIXES = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".bmp",
+    ".webp",
+}
+
+
+# 准备输入、模型和输出路径(路径定义)
 model_path = PROJECT_ROOT / "weights" / "yolo26n.pt"
 image_path = PROJECT_ROOT / "weights" / "bus.jpg"
 output_dir = PROJECT_ROOT / "runs" / "python_first"
+
+if not model_path.is_file():
+    raise FileNotFoundError(
+        f"模型权重不存在: {model_path}"
+    )
+if not image_path.is_file():
+    raise FileNotFoundError(
+        f"输入图片不存在：{image_path}"
+    )
+
+if image_path.suffix.lower() not in SUPPORTED_IMAGE_SUFFIXES:
+    raise ValueError(
+        f"不支持的图片格式：{image_path.suffix}"
+    )
+
+
+output_dir.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
 
 # 加载模型
 model = YOLO(str(model_path))
 
 # 执行推理
+
+print(f"运行设备：{DEVICE}")
+print(f"置信度阈值：{CONFIDENCE_THRESHOLD}")
+
 results = model.predict(
     source=str(image_path),
-    device=0,
-    conf=0.25,
+    device=DEVICE,
+    conf=CONFIDENCE_THRESHOLD,
     save=True,
     project=str(output_dir.parent),
     name=output_dir.name,
@@ -38,7 +75,7 @@ print(f"各阶段耗时：{result.speed}")
 print(f"处理阶段合计：{pipeline_ms:.1f} ms")
 
 # 遍历每个检测框
-detections= []
+detections = []
 for box in result.boxes:
     class_id = int(box.cls.item())
     confidence = float(box.conf.item())
@@ -46,6 +83,7 @@ for box in result.boxes:
         round(value,1) 
         for value in box.xyxy[0].tolist()
     ]
+    
     label = result.names[class_id]
 
     print(
