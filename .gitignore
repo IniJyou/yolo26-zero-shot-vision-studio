@@ -34,3 +34,5 @@ runs/*
 # 临时文件
 *.tmp
 *.log
+# 新加
+*.egg-info/

@@ -1,23 +1,17 @@
 import json
 from pathlib import Path
 
-import torch
 from ultralytics import YOLO
 from ultralytics.engine.results import Results
 
 # 找到项目根目录
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-CONFIDENCE_THRESHOLD = 0.25  # 置信度阈值
-DEVICE = 0 if torch.cuda.is_available() else "cpu"
-
-SUPPORTED_IMAGE_SUFFIXES = {
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".bmp",
-    ".webp",
-}
-
+from vision_studio.config import (
+    DEFAULT_CONFIDENCE,
+    DEFAULT_DEVICE,
+    PROJECT_ROOT,
+    SUPPORTED_IMAGE_SUFFIXES,
+    YOLO26_MODEL_PATH,
+)
 
 def validate_inputs(
     model_path: Path,
@@ -88,7 +82,7 @@ def save_json(
 
 def main() -> None:
     # 1. 定义路径
-    model_path = PROJECT_ROOT / "weights" / "yolo26n.pt"
+    model_path = YOLO26_MODEL_PATH
     image_path = PROJECT_ROOT / "weights" / "bus.jpg"
     output_dir = PROJECT_ROOT / "runs" / "python_first"
 
@@ -105,15 +99,15 @@ def main() -> None:
     )
 
     # 4. 加载模型并执行推理
-    print(f"运行设备：{DEVICE}")
-    print(f"置信度阈值：{CONFIDENCE_THRESHOLD}")
+    print(f"运行设备：{DEFAULT_DEVICE}")
+    print(f"置信度阈值：{DEFAULT_CONFIDENCE}")
 
     model = YOLO(str(model_path))
 
     results = model.predict(
         source=str(image_path),
-        device=DEVICE,
-        conf=CONFIDENCE_THRESHOLD,
+        device=DEFAULT_DEVICE,
+        conf=DEFAULT_CONFIDENCE,
         save=True,
         project=str(output_dir.parent),
         name=output_dir.name,

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yolo26-zero-shot-vision-studio"
+version = "0.1.0"
+description = "YOLO26 and YOLOE zero-shot object detection studio"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ultralytics==8.4.147",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -375,6 +375,38 @@ detections.append(detection)
 - 入口保护让文件被其他模块导入时只提供函数，不会立即加载模型并执行推理。
 - “解析数据、展示数据、保存数据”分离后，更容易替换成Gradio页面或API。
 
+## 2026-09-12：建立标准 Python 包
+
+### 学习目标
+
+把核心代码组织为可安装、可跨目录导入的 `vision_studio` 包，为后续示例、测试和 Web 应用共享代码建立基础。
+
+### 亲手完成的工作
+
+- 将原先直属于 `src` 的空模块迁移到 `src/vision_studio/`。
+- 创建 `pyproject.toml`，声明项目名称、Python版本、依赖和包发现目录。
+- 使用 `python -m pip install -e . --no-deps` 完成可编辑安装。
+- 将项目路径和默认参数迁移到 `vision_studio.config`。
+- 修改示例脚本，从核心包导入配置。
+- 在 VS Code 中直接运行示例，仍检测到 `bus` 和四个 `person`。
+
+### 关键工程认识
+
+- `src` 是源码容器，`vision_studio` 是实际的 Python 导入包。
+- 发布名称可以使用连字符 `yolo26-zero-shot-vision-studio`，导入名使用下划线 `vision_studio`。
+- 可编辑安装不会复制源码；修改 `src/vision_studio` 后，虚拟环境会直接使用最新代码。
+- 配置通过 `Path(__file__)` 推导项目根目录，没有把本机的 `D:\aiworkspace\yolo` 写死到公开源码中。
+- `*.egg-info/` 是安装产生的元数据，不属于需要提交的项目源码。
+
+### 验证结果
+
+```text
+package = D:\aiworkspace\yolo\src\vision_studio\__init__.py
+root = D:\aiworkspace\yolo
+model = D:\aiworkspace\yolo\weights\yolo26n.pt
+检测数量 = 5
+```
+
 ## 项目目录职责
 
 | 路径 | 职责 | 是否提交 GitHub |
@@ -410,6 +442,7 @@ detections.append(detection)
 - [x] 将图片检测结果导出为 JSON
 - [x] 增加配置与输入文件校验
 - [x] 将输入校验与结果转换封装成函数
+- [x] 建立可编辑安装的 `vision_studio` Python 包
 - [ ] 将示例逻辑迁移到 `src` 核心模块
 
 ## 后续记录规范

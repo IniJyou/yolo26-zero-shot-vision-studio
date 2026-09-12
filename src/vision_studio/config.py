@@ -1,0 +1,24 @@
+from pathlib import Path
+
+import torch
+
+# 这里不写死 D:\aiworkspace\yolo。通过当前文件位置推导项目根目录，仓库被其他人克隆后仍能运行。
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+WEIGHTS_DIR = PROJECT_ROOT / "weights"
+DATASETS_DIR = PROJECT_ROOT / "datasets"
+RUNS_DIR = PROJECT_ROOT / "runs"
+
+YOLO26_MODEL_PATH = WEIGHTS_DIR / "yolo26n.pt"
+
+DEFAULT_CONFIDENCE = 0.25
+DEFAULT_DEVICE = 0 if torch.cuda.is_available() else "cpu"
+
+SUPPORTED_IMAGE_SUFFIXES = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".bmp",
+    ".webp",
+}
