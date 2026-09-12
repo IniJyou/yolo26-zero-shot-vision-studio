@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from ultralytics import YOLO
@@ -26,8 +27,9 @@ results = model.predict(
 
 # 一张输入图片对应一个结果对象
 result = results[0]
-height, width=result.orig_shape
-pipeline_ms=sum(result.speed.values())
+
+height, width = result.orig_shape
+pipeline_ms = sum(result.speed.values())
 
 print(f"原图宽度：{width}")
 print(f"原图高度：{height}")
@@ -36,11 +38,14 @@ print(f"各阶段耗时：{result.speed}")
 print(f"处理阶段合计：{pipeline_ms:.1f} ms")
 
 # 遍历每个检测框
+detections= []
 for box in result.boxes:
     class_id = int(box.cls.item())
     confidence = float(box.conf.item())
-    coordinates = [round(value,1) 
-                   for value in box.xyxy[0].tolist()]
+    coordinates = [
+        round(value,1) 
+        for value in box.xyxy[0].tolist()
+    ]
     label = result.names[class_id]
 
     print(
@@ -48,3 +53,43 @@ for box in result.boxes:
         f"置信度={confidence:.3f}, "
         f"坐标={coordinates}"
     )
+
+    detection = {
+      "class_id": class_id,
+      "label": label,
+      "confidence": round(confidence, 4),
+      "bbox_xyxy":coordinates,
+    }
+    detections.append(detection)
+
+output_data = {
+    "source": str(image_path),
+    "model": model_path.name,
+    "image_size": {
+        "width": width,
+        "height": height,
+    },
+    "speed_ms": {
+        "preprocess": round(result.speed["preprocess"], 2),
+        "inference": round(result.speed["inference"], 2),
+        "postprocess": round(result.speed["postprocess"], 2),
+        "total": round(pipeline_ms, 2),
+    },
+    "detection_count": len(detections),
+    "detections": detections,
+}
+
+json_path = output_dir / "bus.json"
+
+json_text = json.dumps(
+    output_data,
+    ensure_ascii=False,
+    indent=2,
+)
+
+json_path.write_text(
+    json_text,
+    encoding="utf-8",
+)
+
+print(f"JSON结果已保存:{json_path}")

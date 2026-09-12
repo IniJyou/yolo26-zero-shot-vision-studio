@@ -216,6 +216,80 @@ D:\aiworkspace\yolo\.venv\Scripts\python.exe
 
 本次单张图片运行包含首次调用波动，只能用于确认功能，不能作为最终性能指标。正式评测需要预热模型并重复运行多次。
 
+## 2026-09-11：检测结果导出为 JSON
+
+### 学习目标
+
+将终端中的检测信息转换成结构化数据，并保存为后续 Web 页面、接口和评测工具能够读取的 JSON 文件。
+
+### 学到的知识
+
+1. Python 字典使用键值对描述一个对象，列表用于保存数量不固定的多个检测对象。
+2. `json.dumps()` 将 Python 字典和列表序列化为 JSON 文本。
+3. `ensure_ascii=False` 保留可读的中文，`indent=2` 生成方便检查的缩进格式。
+4. `Path.write_text(..., encoding="utf-8")` 可以明确使用 UTF-8 保存文本文件。
+5. PyTorch Tensor 不能直接写入 JSON，需要使用 `.item()`、`float()`、`int()` 和 `.tolist()` 转换成普通 Python 数据。
+6. 程序没有报错、列表长度正确，都不能证明字段内容一定正确；还需要验证关键值。
+
+### 亲手完成的工作
+
+- 将每个检测目标转换成包含 `class_id`、`label`、`confidence` 和 `bbox_xyxy` 的字典。
+- 使用 `detections` 列表收集五个检测对象。
+- 保存原图尺寸、模型名称、各阶段耗时和检测数量。
+- 生成 `runs/python_first/bus.json`。
+- 验证 JSON 可以重新解析，检测数量与列表长度均为 5。
+- 验证类别顺序为 `bus` 和四个 `person`。
+
+### 遇到的问题与解决方法
+
+#### 创建了字典但检测列表仍为空
+
+第一次只在循环中写了一个独立字典，没有保存它。Python 创建字典后立即丢弃，因此最终得到：
+
+```json
+{
+  "detection_count": 0,
+  "detections": []
+}
+```
+
+解决方法是先将字典赋给变量，再追加到列表：
+
+```python
+detection = {
+    "class_id": class_id,
+    "label": label,
+    "confidence": round(confidence, 4),
+    "bbox_xyxy": coordinates,
+}
+detections.append(detection)
+```
+
+#### 把变量误写成固定字符串
+
+第二次把类别写成了：
+
+```python
+"label": "label"
+```
+
+这会让所有检测对象的类别都变成固定文本 `label`。正确写法是：
+
+```python
+"label": label
+```
+
+前者是字符串字面量，后者会读取当前循环中 `label` 变量的实际值。修复后，第一个检测对象正确保存为：
+
+```json
+{
+  "class_id": 5,
+  "label": "bus",
+  "confidence": 0.8806,
+  "bbox_xyxy": [0.0, 230.4, 803.2, 750.7]
+}
+```
+
 ## 三周学习与开发计划
 
 ### 第 1 周：图片推理基础
@@ -279,7 +353,8 @@ D:\aiworkspace\yolo\.venv\Scripts\python.exe
 - [x] 编写最小版 `README.md`
 - [x] 初始化并上传 GitHub 仓库
 - [x] 编写第一个 Python 推理程序
-- [ ] 将图片检测结果导出为 JSON
+- [x] 将图片检测结果导出为 JSON
+- [ ] 增加配置与输入文件校验
 
 ## 后续记录规范
 
