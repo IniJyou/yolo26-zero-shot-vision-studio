@@ -14,6 +14,7 @@ DATASETS_DIR = PROJECT_ROOT / "datasets"
 RUNS_DIR = PROJECT_ROOT / "runs"
 
 YOLO26_MODEL_PATH = WEIGHTS_DIR / "yolo26n.pt"
+YOLOE_MODEL_PATH = WEIGHTS_DIR / "yoloe-26n-seg.pt"
 
 DEFAULT_CONFIDENCE = 0.25
 DEFAULT_DEVICE = 0 if torch.cuda.is_available() else "cpu"

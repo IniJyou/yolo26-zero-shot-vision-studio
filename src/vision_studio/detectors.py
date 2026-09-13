@@ -1,24 +1,28 @@
 from pathlib import Path
 
-from ultralytics import YOLO
+from ultralytics import YOLO, YOLOE
+from ultralytics.engine.model import Model
 from ultralytics.engine.results import Results
 
 from .io_utils import validate_inputs
+from .prompt_utils import normalize_classes
 from .schemas import DetectorConfig
-# 模型保存在对象中，因此一个检测器可以连续处理多张图片，不需要每次重新加载权重。
 
-class YOLO26Detector:
-    """封装YOLO26模型加载和图片推理。"""
 
-    def __init__(self, config: DetectorConfig) -> None:
+class BaseDetector:
+    """YOLO26和YOLOE共用的图片推理流程。"""
+
+    def __init__(
+        self,
+        config: DetectorConfig,
+    ) -> None:
         self.config = config
+        self.model: Model
 
         if not config.model_path.is_file():
             raise FileNotFoundError(
                 f"模型权重不存在：{config.model_path}"
             )
-
-        self.model = YOLO(str(config.model_path))
 
     def predict(
         self,
@@ -48,3 +52,50 @@ class YOLO26Detector:
         )
 
         return results[0]
+
+
+class YOLO26Detector(BaseDetector):
+    """COCO固定类别的YOLO26检测器。"""
+
+    def __init__(
+        self,
+        config: DetectorConfig,
+    ) -> None:
+        super().__init__(config)
+        self.model = YOLO(str(config.model_path))
+
+
+class YOLOEDetector(BaseDetector):
+    """通过英文文本类别进行零样本检测的YOLOE检测器。"""
+
+    def __init__(
+        self,
+        config: DetectorConfig,
+    ) -> None:
+        super().__init__(config)
+        self.model = YOLOE(str(config.model_path))
+        self.classes: list[str] = []
+
+    def set_classes(
+        self,
+        classes: list[str],
+    ) -> None:
+        normalized = normalize_classes(classes)
+
+        self.model.set_classes(normalized)
+        self.classes = normalized
+
+    def predict(
+        self,
+        image_path: Path,
+        output_dir: Path,
+    ) -> Results:
+        if not self.classes:
+            raise ValueError(
+                "运行YOLOE前必须先设置提示词"
+            )
+
+        return super().predict(
+            image_path=image_path,
+            output_dir=output_dir,
+        )
