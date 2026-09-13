@@ -444,6 +444,10 @@ model = D:\aiworkspace\yolo\weights\yolo26n.pt
 - [x] 将输入校验与结果转换封装成函数
 - [x] 建立可编辑安装的 `vision_studio` Python 包
 - [x] 将输入校验、结果转换和检测器迁移到 `src` 核心模块
+- [x] 使用 pytest 建立配置、输入校验和提示词测试
+- [x] 实现 YOLOE 提示词清理、去重和空输入校验
+- [x] 接入 YOLOE-26 零样本图片检测
+- [x] 抽取 YOLO26 与 YOLOE 共用的基础检测流程
 
 ## 2026-09-13：配置对象与 YOLO26 检测器封装
 
@@ -483,9 +487,47 @@ Git：4ebea68 已同步至 origin/main
 
 ### 下一步
 
-- 使用 pytest 为配置校验、输入校验和检测结果解析编写自动测试。
-- 接入 YOLOE-26 小型权重并学习文本提示类别设置。
-- 抽象 YOLO26 与 YOLOE 共用的统一检测器接口。
+- 定义统一、可序列化的推理结果对象。
+- 将模型推理与磁盘保存解耦，便于测试和 Web 页面复用。
+- 为检测器增加不依赖真实 GPU 和权重的隔离测试。
+
+## 2026-09-13：pytest 与 YOLOE-26 零样本检测
+
+### 学习目标
+
+建立自动回归测试，完成文本提示词处理，并在同一套工程结构中运行 YOLO26 固定类别检测和 YOLOE 开放词汇零样本检测。
+
+### 亲手完成的工作
+
+- 将 pytest 加入项目开发依赖，编写配置、输入校验和提示词测试。
+- 使用 pytest 的 `tmp_path`、`raises` 和参数化测试覆盖正常与异常分支。
+- 实现英文逗号、中文逗号、首尾空格、重复类别和空提示词处理。
+- 下载并加载 `yoloe-26n-seg.pt` 与 MobileCLIP 文本编码器。
+- 抽取 `BaseDetector`，让 YOLO26 与 YOLOE 复用输入校验和推理参数。
+- 实现 `YOLOEDetector.set_classes()`，通过英文类别控制开放词汇检测。
+- 输出 YOLOE 标注图片与包含提示词、耗时和检测框的 JSON。
+
+### 验证结果
+
+```text
+pytest：14 passed in 2.27s
+运行设备：CUDA device 0
+YOLOE 提示词：double-decker bus、person
+检测结果：4 个 person
+推理耗时：13.9 ms
+Git：f4650bf 已同步至 origin/main
+```
+
+### 结果分析
+
+- YOLOE 成功按照自定义提示词执行，说明零样本检测链路已经打通。
+- 本次没有识别出 `double-decker bus`，这是一次有效的零样本漏检结果，不代表程序故障。
+- 后续可以比较 `bus`、`double-decker bus`、`a large double-decker bus` 等提示词，并适当降低置信度阈值，记录提示词对结果的影响。
+- 当前只消费 YOLOE 的检测框；模型同时产生的实例分割掩码留待后续扩展。
+
+### 遇到的问题与解决方法
+
+运行 `set_classes()` 时出现 `torch.jit.load is deprecated` 的 `FutureWarning`。YOLOE 的 MobileCLIP 文本编码器当前由 Ultralytics 通过 `torch.jit.load()` 加载，而 PyTorch 提醒该接口未来会迁移到 `torch.export`。这是第三方依赖的未来兼容性提醒，不影响本次推理，也不需要修改项目业务代码或全局隐藏警告。
 
 ## 后续记录规范
 
