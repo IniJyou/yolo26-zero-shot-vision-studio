@@ -2,6 +2,9 @@ from pathlib import Path
 
 import torch
 
+DEFAULT_IOU = 0.70
+DEFAULT_IMAGE_SIZE = 640
+
 # 这里不写死 D:\aiworkspace\yolo。通过当前文件位置推导项目根目录，仓库被其他人克隆后仍能运行。
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]

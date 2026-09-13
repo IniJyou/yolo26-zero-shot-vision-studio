@@ -2,6 +2,27 @@ from typing import Any
 
 from ultralytics.engine.results import Results
 
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass(frozen=True)
+class DetectorConfig:
+    model_path: Path
+    device: int | str
+    confidence: float = 0.25
+    iou: float = 0.70
+    image_size: int = 640
+
+    def __post_init__(self) -> None:
+        if not 0.0 <= self.confidence <= 1.0:
+            raise ValueError("confidence必须位于0到1之间")
+
+        if not 0.0 <= self.iou <= 1.0:
+            raise ValueError("iou必须位于0到1之间")
+
+        if self.image_size <= 0:
+            raise ValueError("image_size必须大于0")
+
 
 def parse_detections(
     result: Results,

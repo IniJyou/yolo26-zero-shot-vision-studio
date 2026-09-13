@@ -1,64 +1,52 @@
-from ultralytics import YOLO
-from vision_studio.io_utils import save_json, validate_inputs
-from vision_studio.schemas import parse_detections
+from pathlib import Path
 
-# 找到项目根目录
 from vision_studio.config import (
     DEFAULT_CONFIDENCE,
     DEFAULT_DEVICE,
+    DEFAULT_IMAGE_SIZE,
+    DEFAULT_IOU,
     PROJECT_ROOT,
-    SUPPORTED_IMAGE_SUFFIXES,
     YOLO26_MODEL_PATH,
 )
-
+from vision_studio.detectors import YOLO26Detector
+from vision_studio.io_utils import save_json
+from vision_studio.schemas import DetectorConfig, parse_detections
 
 
 def main() -> None:
-    # 1. 定义路径
-    model_path = YOLO26_MODEL_PATH
+    # 1. 构建检测器配置
+    config = DetectorConfig(
+        model_path=YOLO26_MODEL_PATH,
+        device=DEFAULT_DEVICE,
+        confidence=DEFAULT_CONFIDENCE,
+        iou=DEFAULT_IOU,
+        image_size=DEFAULT_IMAGE_SIZE,
+    )
+
+    # 2. 定义输入和输出路径
     image_path = PROJECT_ROOT / "weights" / "bus.jpg"
     output_dir = PROJECT_ROOT / "runs" / "python_first"
 
-    # 2. 校验输入
-    validate_inputs(
-        model_path=model_path,
+    # 3. 创建检测器并推理（验证输入和创建输出目录都在 detector 内部自动完成）
+    detector = YOLO26Detector(config)
+    result = detector.predict(
         image_path=image_path,
+        output_dir=output_dir,
     )
 
-    # 3. 创建输出目录
-    output_dir.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    # 4. 加载模型并执行推理
-    print(f"运行设备：{DEFAULT_DEVICE}")
-    print(f"置信度阈值：{DEFAULT_CONFIDENCE}")
-
-    model = YOLO(str(model_path))
-
-    results = model.predict(
-        source=str(image_path),
-        device=DEFAULT_DEVICE,
-        conf=DEFAULT_CONFIDENCE,
-        save=True,
-        project=str(output_dir.parent),
-        name=output_dir.name,
-        exist_ok=True,
-    )
-
-    # 5. 处理推理结果
-    result = results[0]
-
+    # 4. 打印推理概览
     height, width = result.orig_shape
     pipeline_ms = sum(result.speed.values())
 
+    print(f"运行设备：{config.device}")
+    print(f"置信度阈值：{config.confidence}")
     print(f"原图宽度：{width}")
     print(f"原图高度：{height}")
     print(f"检测数量：{len(result.boxes)}")
     print(f"各阶段耗时：{result.speed}")
     print(f"处理阶段合计：{pipeline_ms:.1f} ms")
 
+    # 5. 解析检测框
     detections = parse_detections(result)
 
     for detection in detections:
@@ -71,7 +59,7 @@ def main() -> None:
     # 6. 构建输出数据
     output_data = {
         "source": str(image_path),
-        "model": model_path.name,
+        "model": config.model_path.name,
         "image_size": {
             "width": width,
             "height": height,
