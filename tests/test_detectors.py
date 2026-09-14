@@ -148,3 +148,56 @@ def test_yoloe_normalizes_classes(
         "person",
         "bus",
     ]
+
+def test_yolo26_uses_runtime_parameters(
+    tmp_path: Path,
+) -> None:
+    config = make_config(tmp_path)
+    image_path = make_image(tmp_path)
+    raw_result = make_raw_result()
+
+    with patch(
+        "vision_studio.detectors.YOLO"
+    ) as yolo_factory:
+        model = yolo_factory.return_value
+        model.predict.return_value = [raw_result]
+
+        detector = YOLO26Detector(config)
+
+        detector.predict(
+            image_path=image_path,
+            confidence=0.15,
+            iou=0.50,
+            image_size=640,
+        )
+
+    model.predict.assert_called_once_with(
+        source=str(image_path),
+        device="cpu",
+        conf=0.15,
+        iou=0.50,
+        imgsz=640,
+        save=False,
+    )
+
+
+def test_predict_rejects_invalid_runtime_confidence(
+    tmp_path: Path,
+) -> None:
+    config = make_config(tmp_path)
+    image_path = make_image(tmp_path)
+
+    with patch(
+        "vision_studio.detectors.YOLO"
+    ):
+        detector = YOLO26Detector(config)
+
+        with pytest.raises(
+            ValueError,
+            match="confidence必须位于0到1之间",
+        ):
+            detector.predict(
+                image_path=image_path,
+                confidence=1.5,
+            )
+  

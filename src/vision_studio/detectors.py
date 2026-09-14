@@ -31,18 +31,41 @@ class BaseDetector:
         self,
         image_path: Path,
         output_dir: Path | None = None,
+        confidence: float | None = None,
+        iou: float | None = None,
+        image_size: int | None = None,
     ) -> InferenceResult:
         validate_inputs(
             model_path=self.config.model_path,
             image_path=image_path,
         )
+      # 这里重新创建 runtime_config 的一个作用是复用已有参数校验。
+        runtime_config = DetectorConfig(
+            model_path=self.config.model_path,
+            device=self.config.device,
+            confidence=(
+                self.config.confidence
+                if confidence is None
+                else confidence
+            ),
+            iou=(
+                self.config.iou
+                if iou is None
+                else iou
+            ),
+            image_size=(
+                self.config.image_size
+                if image_size is None
+                else image_size
+            ),
+        )
 
         raw_results = self.model.predict(
             source=str(image_path),
-            device=self.config.device,
-            conf=self.config.confidence,
-            iou=self.config.iou,
-            imgsz=self.config.image_size,
+            device=runtime_config.device,
+            conf=runtime_config.confidence,
+            iou=runtime_config.iou,
+            imgsz=runtime_config.image_size,
             save=False,
         )
 
@@ -111,6 +134,9 @@ class YOLOEDetector(BaseDetector):
         self,
         image_path: Path,
         output_dir: Path | None = None,
+        confidence: float | None = None,
+        iou: float | None = None,
+        image_size: int | None = None,
     ) -> InferenceResult:
         if not self.classes:
             raise ValueError(
@@ -120,4 +146,7 @@ class YOLOEDetector(BaseDetector):
         return super().predict(
             image_path=image_path,
             output_dir=output_dir,
+            confidence=confidence,
+            iou=iou,
+            image_size=image_size,
         )
