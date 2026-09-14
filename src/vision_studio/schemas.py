@@ -35,7 +35,6 @@ class DetectorConfig:
 @dataclass(frozen=True)
 class Detection:
     """单个检测目标。"""
-
     class_id: int
     label: str
     confidence: float
@@ -58,7 +57,6 @@ class Detection:
 @dataclass(frozen=True)
 class InferenceResult:
     """一次图片推理产生的统一结果。"""
-
     source_path: Path
     model_name: str
     image_width: int

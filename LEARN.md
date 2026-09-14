@@ -448,6 +448,9 @@ model = D:\aiworkspace\yolo\weights\yolo26n.pt
 - [x] 实现 YOLOE 提示词清理、去重和空输入校验
 - [x] 接入 YOLOE-26 零样本图片检测
 - [x] 抽取 YOLO26 与 YOLOE 共用的基础检测流程
+- [x] 定义统一的 `Detection` 与 `InferenceResult` 数据结构
+- [x] 将模型推理与磁盘保存解耦
+- [x] 使用模拟模型完成检测器隔离测试
 
 ## 2026-09-13：配置对象与 YOLO26 检测器封装
 
@@ -528,6 +531,51 @@ Git：f4650bf 已同步至 origin/main
 ### 遇到的问题与解决方法
 
 运行 `set_classes()` 时出现 `torch.jit.load is deprecated` 的 `FutureWarning`。YOLOE 的 MobileCLIP 文本编码器当前由 Ultralytics 通过 `torch.jit.load()` 加载，而 PyTorch 提醒该接口未来会迁移到 `torch.export`。这是第三方依赖的未来兼容性提醒，不影响本次推理，也不需要修改项目业务代码或全局隐藏警告。
+
+## 2026-09-14：统一推理结果与隔离测试
+
+### 学习目标
+
+让项目不再向上层直接暴露 Ultralytics `Results`，统一 YOLO26 与 YOLOE 的返回数据，并允许调用者选择是否把标注图片写入磁盘。
+
+### 亲手完成的工作
+
+- 使用 `Detection` 表示单个目标的类别、置信度和 `xyxy` 坐标。
+- 使用 `InferenceResult` 表示一次完整图片推理的尺寸、耗时、检测列表、标注图片和可选输出路径。
+- 实现 `to_dict()`，将项目对象转换成可写入 JSON 的普通 Python 数据。
+- 使用 `build_inference_result()` 隔离 Ultralytics 原始结果与项目数据结构。
+- 将模型调用固定为 `save=False`，仅在提供 `output_dir` 时手动保存标注图片。
+- 更新 YOLO26 与 YOLOE 示例，使它们使用相同的结果读取方式。
+- 使用 `SimpleNamespace` 构造轻量级原始结果，测试结果转换而不运行模型。
+- 使用 `unittest.mock.patch` 替换 YOLO 工厂，验证参数传递、可选保存和 YOLOE 提示词保护逻辑。
+
+### 关键工程认识
+
+- 第三方库对象不应扩散到整个应用；统一的数据边界能降低 Web 页面、视频模块和测试对 Ultralytics 内部接口的依赖。
+- 内存中的 `annotated_image` 可以直接交给后续界面显示，而 `to_dict()` 会主动排除无法写入 JSON 的 NumPy 数组。
+- `output_path=None` 明确表达“推理成功但未保存文件”，不应把未保存当作错误。
+- Mock 测试关注本项目是否正确调用依赖，适合验证控制流程；真实模型示例则负责验证整体集成，两者用途不同。
+- `frozen=True` 限制属性重新赋值，但其中的 `list` 仍然可以修改，因此它不是完全的深层不可变。
+
+### 遇到的问题与解决方法
+
+更新 YOLOE 示例时遗漏了 `detector.set_classes(classes)`，触发“运行 YOLOE 前必须先设置提示词”。这说明保护分支工作正常。恢复“解析提示词 → 设置类别 → 执行推理”的调用顺序后问题解决。
+
+### 验证结果
+
+```text
+pytest：21 passed in 2.48s
+YOLO26 示例：通过
+YOLOE 示例：通过
+Git：d0bb43e 已同步至 origin/main
+工作区：提交前 clean
+```
+
+### 下一步
+
+- 建立图片推理服务层，集中处理模型选择、提示词和结果输出。
+- 增加模型缓存，避免 Web 请求重复加载同一权重。
+- 为 Gradio 图片页面准备 RGB 图片、表格、摘要和 JSON 文件。
 
 ## 后续记录规范
 
