@@ -2,11 +2,14 @@ from pathlib import Path
 
 from ultralytics import YOLO, YOLOE
 from ultralytics.engine.model import Model
-from ultralytics.engine.results import Results
 
 from .io_utils import validate_inputs
 from .prompt_utils import normalize_classes
-from .schemas import DetectorConfig
+from .schemas import (
+    DetectorConfig,
+    InferenceResult,
+    build_inference_result,
+)
 
 
 class BaseDetector:
@@ -27,31 +30,50 @@ class BaseDetector:
     def predict(
         self,
         image_path: Path,
-        output_dir: Path,
-    ) -> Results:
+        output_dir: Path | None = None,
+    ) -> InferenceResult:
         validate_inputs(
             model_path=self.config.model_path,
             image_path=image_path,
         )
 
-        output_dir.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
-
-        results = self.model.predict(
+        raw_results = self.model.predict(
             source=str(image_path),
             device=self.config.device,
             conf=self.config.confidence,
             iou=self.config.iou,
             imgsz=self.config.image_size,
-            save=True,
-            project=str(output_dir.parent),
-            name=output_dir.name,
-            exist_ok=True,
+            save=False,
         )
 
-        return results[0]
+        if not raw_results:
+            raise RuntimeError(
+                "模型没有返回图片推理结果"
+            )
+
+        raw_result = raw_results[0]
+        output_path: Path | None = None
+
+        if output_dir is not None:
+            output_dir.mkdir(
+                parents=True,
+                exist_ok=True,
+            )
+
+            output_path = (
+                output_dir / image_path.name
+            )
+
+            raw_result.save(
+                filename=str(output_path)
+            )
+
+        return build_inference_result(
+            result=raw_result,
+            source_path=image_path,
+            model_name=self.config.model_path.name,
+            output_path=output_path,
+        )
 
 
 class YOLO26Detector(BaseDetector):
@@ -88,8 +110,8 @@ class YOLOEDetector(BaseDetector):
     def predict(
         self,
         image_path: Path,
-        output_dir: Path,
-    ) -> Results:
+        output_dir: Path | None = None,
+    ) -> InferenceResult:
         if not self.classes:
             raise ValueError(
                 "运行YOLOE前必须先设置提示词"
