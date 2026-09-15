@@ -26,3 +26,12 @@ SUPPORTED_IMAGE_SUFFIXES = {
     ".bmp",
     ".webp",
 }
+
+SUPPORTED_VIDEO_SUFFIXES = {
+    ".mp4",
+    ".avi",
+    ".mov",
+    ".mkv",
+}
+# 暂时限制 30 秒，是为了避免一次任务占用过多磁盘和处理时间
+DEFAULT_MAX_VIDEO_SECONDS = 30.0
