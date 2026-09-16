@@ -1,0 +1,6 @@
+sample_id,image_path,group,target_label,yolo26_expected_label,yoloe_prompt,yoloe_expected_label,source_reference,usage_rights,notes
+001,datasets/benchmark/images/001_bus.jpg,common,bus,bus,bus,bus,EMT Madrid street scene,verify-before-publishing,马德里电动公交车，前景有行人
+002,datasets/benchmark/images/002_yellowfrog.png,open,yellow cartoon creature,,yellow cartoon creature,yellow cartoon creature,3D Render / Meme culture,verify-before-publishing,两只3D渲染的黄色生物
+003,datasets/benchmark/images/003_redmoon.jpg,open,red moon,,red moon,red moon,Astrophotography sample,verify-before-publishing,血月右侧可见伴星
+004,datasets/benchmark/images/004_penguin.png,open,penguin,,penguin,penguin,VRChat / Game screenshot,verify-before-publishing,动漫头部与企鹅身体的混合模型
+005,datasets/benchmark/images/005_bikeandcloud.jpg,common,bicycle,bicycle,bicycle,bicycle,Xiaohongshu user v578681138,verify-before-publishing,骑行者剪影和积雨云
