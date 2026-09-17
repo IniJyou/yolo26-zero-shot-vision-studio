@@ -95,9 +95,6 @@ def build_app() -> gr.Blocks:
                             "例如：person, bus, "
                             "cartoon sheep"
                         ),
-                        value=(
-                            "double-decker bus, person"
-                        ),
                         visible=False,
                         lines=2,
                     )
@@ -241,7 +238,6 @@ def build_app() -> gr.Blocks:
                         placeholder=(
                             "例如：person, car, dog"
                         ),
-                        value="person, bus",
                         visible=False,
                         lines=2,
                     )
