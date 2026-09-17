@@ -1,0 +1,81 @@
+﻿sample_id,image_path,group,target_label,mode,eligible,expected_label,prompt,hit,detection_count,detected_labels,prompt_setup_ms,prediction_wall_ms,preprocess_ms,inference_ms,postprocess_ms,model_total_ms,end_to_end_ms,image_width,image_height,confidence_threshold,iou_threshold,input_size
+common_001,datasets/benchmark/images/common_001_bus.jpg,common,bus,YOLO26,1,bus,,1,5,bus|person,0.0,17.94,1.32,9.64,1.34,12.3,17.94,810,1080,0.25,0.7,640
+common_001,datasets/benchmark/images/common_001_bus.jpg,common,bus,YOLOE,1,bus,bus,1,1,bus,159.95,254.29,1.3,12.85,8.01,22.16,414.24,810,1080,0.25,0.7,640
+common_002,datasets/benchmark/images/common_002_bicycle.jpg,common,bicycle,YOLO26,1,bicycle,,1,2,person|bicycle,0.0,21.39,1.72,10.36,1.48,13.56,21.39,920,1227,0.25,0.7,640
+common_002,datasets/benchmark/images/common_002_bicycle.jpg,common,bicycle,YOLOE,1,bicycle,bicycle,1,1,bicycle,150.58,108.81,1.47,12.44,1.46,15.37,259.39,920,1227,0.25,0.7,640
+common_003,datasets/benchmark/images/common_003_person.png,common,person,YOLO26,1,person,,1,9,car|truck|person,0.0,46.75,1.58,19.25,1.4,22.23,46.75,2560,1707,0.25,0.7,640
+common_003,datasets/benchmark/images/common_003_person.png,common,person,YOLOE,1,person,person,1,1,person,156.16,137.37,1.48,12.05,1.63,15.16,293.53,2560,1707,0.25,0.7,640
+common_004,datasets/benchmark/images/common_004_person.png,common,person,YOLO26,1,person,,1,2,person|cell phone,0.0,28.05,0.97,9.77,1.88,12.62,28.05,1152,806,0.25,0.7,640
+common_004,datasets/benchmark/images/common_004_person.png,common,person,YOLOE,1,person,person,1,4,person,0.01,32.67,1.25,13.53,2.58,17.36,32.68,1152,806,0.25,0.7,640
+common_005,datasets/benchmark/images/common_005_person.png,common,person,YOLO26,1,person,,1,2,person|motorcycle,0.0,46.65,1.41,21.23,1.4,24.04,46.65,3840,2160,0.25,0.7,640
+common_005,datasets/benchmark/images/common_005_person.png,common,person,YOLOE,1,person,person,1,1,person,0.02,73.71,1.49,16.28,2.25,20.02,73.74,3840,2160,0.25,0.7,640
+common_006,datasets/benchmark/images/common_006_person.jpg,common,person,YOLO26,1,person,,1,1,person,0.0,40.74,1.25,24.4,2.82,28.47,40.74,1242,2688,0.25,0.7,640
+common_006,datasets/benchmark/images/common_006_person.jpg,common,person,YOLOE,1,person,person,1,1,person,0.01,39.58,1.26,19.1,2.36,22.72,39.6,1242,2688,0.25,0.7,640
+common_007,datasets/benchmark/images/common_007_car.png,common,car,YOLO26,1,car,,1,3,car,0.0,36.28,0.87,21.25,3.12,25.24,36.28,1145,597,0.25,0.7,640
+common_007,datasets/benchmark/images/common_007_car.png,common,car,YOLOE,1,car,car,1,3,car,144.69,124.54,1.25,12.12,1.54,14.91,269.24,1145,597,0.25,0.7,640
+common_008,datasets/benchmark/images/common_008_truck.png,common,truck,YOLO26,1,truck,,1,1,truck,0.0,26.75,0.98,9.57,1.14,11.69,26.75,1245,814,0.25,0.7,640
+common_008,datasets/benchmark/images/common_008_truck.png,common,truck,YOLOE,1,truck,truck,1,1,truck,148.14,112.25,1.07,11.75,1.44,14.26,260.39,1245,814,0.25,0.7,640
+common_009,datasets/benchmark/images/common_009_motorcycle.png,common,motorcycle,YOLO26,1,motorcycle,,1,5,motorcycle|person,0.0,36.16,1.04,17.04,1.13,19.21,36.16,1178,903,0.25,0.7,640
+common_009,datasets/benchmark/images/common_009_motorcycle.png,common,motorcycle,YOLOE,1,motorcycle,motorcycle,1,2,motorcycle,148.71,130.74,1.84,14.25,1.48,17.57,279.45,1178,903,0.25,0.7,640
+common_010,datasets/benchmark/images/common_010_person.png,common,person,YOLO26,1,person,,1,1,person,0.0,32.8,1.19,18.38,1.5,21.07,32.8,1017,761,0.25,0.7,640
+common_010,datasets/benchmark/images/common_010_person.png,common,person,YOLOE,1,person,person,1,1,person,152.11,117.21,1.66,11.39,1.49,14.54,269.32,1017,761,0.25,0.7,640
+common_011,datasets/benchmark/images/common_011_dog.png,common,dog,YOLO26,1,dog,,1,8,dog|frisbee|cow,0.0,31.96,1.32,9.15,1.21,11.68,31.96,1257,914,0.25,0.7,640
+common_011,datasets/benchmark/images/common_011_dog.png,common,dog,YOLOE,1,dog,dog,1,5,dog,154.82,115.89,1.52,11.97,1.49,14.98,270.71,1257,914,0.25,0.7,640
+common_012,datasets/benchmark/images/common_012_cat.png,common,cat,YOLO26,1,cat,,1,1,cat,0.0,34.49,1.39,18.6,1.2,21.19,34.49,1009,1082,0.25,0.7,640
+common_012,datasets/benchmark/images/common_012_cat.png,common,cat,YOLOE,1,cat,cat,1,1,cat,140.08,140.7,2.08,14.26,1.71,18.05,280.79,1009,1082,0.25,0.7,640
+common_013,datasets/benchmark/images/common_013_horse.png,common,horse,YOLO26,1,horse,,1,1,horse,0.0,34.98,1.36,11.16,1.59,14.11,34.98,1506,859,0.25,0.7,640
+common_013,datasets/benchmark/images/common_013_horse.png,common,horse,YOLOE,1,horse,horse,1,1,horse,143.6,160.57,1.87,12.6,1.39,15.86,304.16,1506,859,0.25,0.7,640
+common_014,datasets/benchmark/images/common_014_bird.png,common,bird,YOLO26,1,bird,,1,1,bird,0.0,36.18,1.69,14.27,1.36,17.32,36.18,1384,1107,0.25,0.7,640
+common_014,datasets/benchmark/images/common_014_bird.png,common,bird,YOLOE,1,bird,bird,0,0,,151.08,260.0,2.32,12.89,0.43,15.64,411.09,1384,1107,0.25,0.7,640
+common_015,datasets/benchmark/images/common_015_cow.png,common,cow,YOLO26,1,cow,,1,3,cow,0.0,39.73,2.52,17.31,1.34,21.17,39.73,1229,1045,0.25,0.7,640
+common_015,datasets/benchmark/images/common_015_cow.png,common,cow,YOLOE,1,cow,cow,1,4,cow,147.41,152.96,2.67,15.72,1.73,20.12,300.37,1229,1045,0.25,0.7,640
+common_016,datasets/benchmark/images/common_016_chair.png,common,chair,YOLO26,1,chair,,1,1,chair,0.0,22.13,1.72,10.67,1.44,13.83,22.13,661,913,0.25,0.7,640
+common_016,datasets/benchmark/images/common_016_chair.png,common,chair,YOLOE,1,chair,chair,1,1,chair,156.24,115.71,1.79,13.59,1.43,16.81,271.94,661,913,0.25,0.7,640
+common_017,datasets/benchmark/images/common_017_bottle.png,common,bottle,YOLO26,1,bottle,,1,1,bottle,0.0,28.6,1.81,17.6,1.07,20.48,28.6,538,1024,0.25,0.7,640
+common_017,datasets/benchmark/images/common_017_bottle.png,common,bottle,YOLOE,1,bottle,bottle,1,1,bottle,139.06,124.41,1.76,13.2,1.54,16.5,263.47,538,1024,0.25,0.7,640
+common_018,datasets/benchmark/images/common_018_laptop.png,common,laptop,YOLO26,1,laptop,,1,1,laptop,0.0,31.66,2.19,11.19,1.2,14.58,31.66,1446,1076,0.25,0.7,640
+common_018,datasets/benchmark/images/common_018_laptop.png,common,laptop,YOLOE,1,laptop,laptop,1,1,laptop,147.69,139.71,1.87,14.39,2.56,18.82,287.41,1446,1076,0.25,0.7,640
+common_019,datasets/benchmark/images/common_019_umbrella.png,common,umbrella,YOLO26,1,umbrella,,1,1,umbrella,0.0,36.18,2.6,18.75,1.38,22.73,36.18,1062,1024,0.25,0.7,640
+common_019,datasets/benchmark/images/common_019_umbrella.png,common,umbrella,YOLOE,1,umbrella,umbrella,1,1,umbrella,155.18,143.99,2.5,18.36,1.58,22.44,299.17,1062,1024,0.25,0.7,640
+common_020,datasets/benchmark/images/common_020_cup.png,common,cup,YOLO26,1,cup,,1,2,cup|laptop,0.0,23.02,2.0,11.53,1.22,14.75,23.02,777,1045,0.25,0.7,640
+common_020,datasets/benchmark/images/common_020_cup.png,common,cup,YOLOE,1,cup,cup,1,1,cup,155.52,155.83,2.38,20.01,1.6,23.99,311.35,777,1045,0.25,0.7,640
+open_001,datasets/benchmark/images/open_001_yellow_cartoon_creature.png,open,yellow cartoon creature,YOLO26,0,,,,3,vase|car,0.0,28.06,2.31,13.53,1.38,17.22,28.06,675,917,0.25,0.7,640
+open_001,datasets/benchmark/images/open_001_yellow_cartoon_creature.png,open,yellow cartoon creature,YOLOE,1,yellow cartoon creature,yellow cartoon creature,1,2,yellow cartoon creature,159.97,131.5,2.06,20.24,1.86,24.16,291.48,675,917,0.25,0.7,640
+open_002,datasets/benchmark/images/open_002_penguin.png,open,penguin,YOLO26,0,,,,1,bird,0.0,62.77,2.2,12.63,1.17,16.0,62.77,2529,1364,0.25,0.7,640
+open_002,datasets/benchmark/images/open_002_penguin.png,open,penguin,YOLOE,1,penguin,penguin,0,0,,138.23,166.59,2.34,17.26,0.43,20.03,304.83,2529,1364,0.25,0.7,640
+open_003,datasets/benchmark/images/open_003_cartoon_penguin.png,open,cartoon penguin,YOLO26,0,,,,2,bird|person,0.0,31.02,2.82,16.88,1.64,21.34,31.02,750,757,0.25,0.7,640
+open_003,datasets/benchmark/images/open_003_cartoon_penguin.png,open,cartoon penguin,YOLOE,1,cartoon penguin,cartoon penguin,0,0,,144.1,156.56,3.23,29.7,0.46,33.39,300.67,750,757,0.25,0.7,640
+open_004,datasets/benchmark/images/open_004_redpanda.png,open,red panda,YOLO26,0,,,,1,bear,0.0,57.55,2.58,16.27,1.19,20.04,57.55,1958,1227,0.25,0.7,640
+open_004,datasets/benchmark/images/open_004_redpanda.png,open,red panda,YOLOE,1,red panda,red panda,1,1,red panda,143.14,353.4,2.27,18.65,1.6,22.52,496.54,1958,1227,0.25,0.7,640
+open_005,datasets/benchmark/images/open_005_axolotl.png,open,axolotl,YOLO26,0,,,,1,teddy bear,0.0,39.07,3.22,18.14,1.32,22.68,39.07,1286,1252,0.25,0.7,640
+open_005,datasets/benchmark/images/open_005_axolotl.png,open,axolotl,YOLOE,1,axolotl,axolotl,1,1,axolotl,147.87,152.3,2.61,23.46,3.37,29.44,300.17,1286,1252,0.25,0.7,640
+open_006,datasets/benchmark/images/open_006_capybara.png,open,capybara,YOLO26,0,,,,2,cow|potted plant,0.0,33.93,2.02,17.32,1.28,20.62,33.93,759,1139,0.25,0.7,640
+open_006,datasets/benchmark/images/open_006_capybara.png,open,capybara,YOLOE,1,capybara,capybara,0,0,,151.54,137.3,2.22,13.81,0.42,16.45,288.85,759,1139,0.25,0.7,640
+open_007,datasets/benchmark/images/open_007_mantis.png,open,praying mantis,YOLO26,0,,,,1,bird,0.0,18.97,1.67,10.45,1.35,13.47,18.97,728,418,0.25,0.7,640
+open_007,datasets/benchmark/images/open_007_mantis.png,open,praying mantis,YOLOE,1,praying mantis,praying mantis,1,1,praying mantis,139.45,114.54,1.76,12.82,1.63,16.21,254.0,728,418,0.25,0.7,640
+open_008,datasets/benchmark/images/open_008_cartoon_girl.png,open,cartoon girl,YOLO26,0,,,,3,kite|person,0.0,123.03,2.05,10.68,1.19,13.92,123.03,3500,2160,0.25,0.7,640
+open_008,datasets/benchmark/images/open_008_cartoon_girl.png,open,cartoon girl,YOLOE,1,cartoon girl,cartoon girl,0,0,,144.32,209.13,2.11,12.77,0.39,15.27,353.45,3500,2160,0.25,0.7,640
+open_009,datasets/benchmark/images/open_009_cartoon_robot.png,open,cartoon robot,YOLO26,0,,,,0,,0.0,27.54,2.86,12.3,1.2,16.36,27.54,978,986,0.25,0.7,640
+open_009,datasets/benchmark/images/open_009_cartoon_robot.png,open,cartoon robot,YOLOE,1,cartoon robot,cartoon robot,0,0,,151.22,131.31,3.03,16.47,0.39,19.89,282.53,978,986,0.25,0.7,640
+open_010,datasets/benchmark/images/open_010_cartoon_sheep.png,open,cartoon sheep,YOLO26,0,,,,1,cake,0.0,31.45,2.23,17.0,1.13,20.36,31.45,908,1117,0.25,0.7,640
+open_010,datasets/benchmark/images/open_010_cartoon_sheep.png,open,cartoon sheep,YOLOE,1,cartoon sheep,cartoon sheep,0,0,,141.4,149.54,3.07,25.4,0.42,28.89,290.95,908,1117,0.25,0.7,640
+open_011,datasets/benchmark/images/open_011_red_moon.jpg,open,red moon,YOLO26,0,,,,1,orange,0.0,115.32,3.54,17.17,1.32,22.03,115.32,3024,4032,0.25,0.7,640
+open_011,datasets/benchmark/images/open_011_red_moon.jpg,open,red moon,YOLOE,1,red moon,red moon,0,0,,135.41,236.61,3.23,26.18,0.65,30.06,372.02,3024,4032,0.25,0.7,640
+open_012,datasets/benchmark/images/open_012_tornado.png,open,tornado,YOLO26,0,,,,0,,0.0,32.25,2.53,16.38,1.69,20.6,32.25,1192,672,0.25,0.7,640
+open_012,datasets/benchmark/images/open_012_tornado.png,open,tornado,YOLOE,1,tornado,tornado,0,0,,147.08,151.06,2.21,24.04,1.09,27.34,298.14,1192,672,0.25,0.7,640
+open_013,datasets/benchmark/images/open_013_huge_cloud.jpg,open,cumulonimbus cloud,YOLO26,0,,,,0,,0.0,35.88,2.78,19.02,0.54,22.34,35.88,1440,1918,0.25,0.7,640
+open_013,datasets/benchmark/images/open_013_huge_cloud.jpg,open,cumulonimbus cloud,YOLOE,1,cumulonimbus cloud,cumulonimbus cloud,1,1,cumulonimbus cloud,139.26,240.7,2.81,26.19,1.8,30.8,379.96,1440,1918,0.25,0.7,640
+open_014,datasets/benchmark/images/open_014_lightning.png,open,lightning,YOLO26,0,,,,0,,0.0,44.94,2.63,17.62,1.06,21.31,44.94,1702,1225,0.25,0.7,640
+open_014,datasets/benchmark/images/open_014_lightning.png,open,lightning,YOLOE,1,lightning,lightning,0,0,,156.62,261.0,2.09,15.36,0.47,17.92,417.62,1702,1225,0.25,0.7,640
+open_015,datasets/benchmark/images/open_015_earth.png,open,planet Earth,YOLO26,0,,,,1,bowl,0.0,114.78,2.39,10.66,1.45,14.5,114.78,5568,3712,0.25,0.7,640
+open_015,datasets/benchmark/images/open_015_earth.png,open,planet Earth,YOLOE,1,planet Earth,planet Earth,0,0,,143.21,210.15,2.68,14.3,0.41,17.39,353.36,5568,3712,0.25,0.7,640
+open_016,datasets/benchmark/images/open_016_guitar.png,open,guitar,YOLO26,0,,,,0,,0.0,32.31,2.73,13.34,2.22,18.29,32.31,1131,1165,0.25,0.7,640
+open_016,datasets/benchmark/images/open_016_guitar.png,open,guitar,YOLOE,1,guitar,guitar,0,0,,157.86,140.64,3.01,18.35,0.44,21.8,298.5,1131,1165,0.25,0.7,640
+open_017,datasets/benchmark/images/open_017_wind_turbine.png,open,wind turbine,YOLO26,0,,,,1,airplane,0.0,59.82,1.83,12.16,1.17,15.16,59.82,2456,1372,0.25,0.7,640
+open_017,datasets/benchmark/images/open_017_wind_turbine.png,open,wind turbine,YOLOE,1,wind turbine,wind turbine,1,2,wind turbine,145.64,202.23,2.13,13.17,1.57,16.87,347.87,2456,1372,0.25,0.7,640
+open_018,datasets/benchmark/images/open_018_graphics_card.png,open,graphics card,YOLO26,0,,,,1,mouse,0.0,33.52,1.94,11.11,1.25,14.3,33.52,1472,795,0.25,0.7,640
+open_018,datasets/benchmark/images/open_018_graphics_card.png,open,graphics card,YOLOE,1,graphics card,graphics card,0,0,,143.6,143.83,2.19,16.69,0.39,19.27,287.44,1472,795,0.25,0.7,640
+open_019,datasets/benchmark/images/open_019_microscope.png,open,microscope,YOLO26,0,,,,0,,0.0,22.41,2.23,13.21,0.83,16.27,22.41,712,466,0.25,0.7,640
+open_019,datasets/benchmark/images/open_019_microscope.png,open,microscope,YOLOE,1,microscope,microscope,0,0,,144.27,126.87,1.95,19.34,0.41,21.7,271.14,712,466,0.25,0.7,640
+open_020,datasets/benchmark/images/open_020_traffic_cone.png,open,traffic cone,YOLO26,0,,,,1,person,0.0,50.18,2.92,17.71,10.69,31.32,50.18,1174,1368,0.25,0.7,640
+open_020,datasets/benchmark/images/open_020_traffic_cone.png,open,traffic cone,YOLOE,1,traffic cone,traffic cone,0,0,,137.06,155.23,3.31,23.66,0.43,27.4,292.3,1174,1368,0.25,0.7,640

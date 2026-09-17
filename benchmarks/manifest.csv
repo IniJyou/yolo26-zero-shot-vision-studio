@@ -1,6 +1,41 @@
 sample_id,image_path,group,target_label,yolo26_expected_label,yoloe_prompt,yoloe_expected_label,source_reference,usage_rights,notes
-001,datasets/benchmark/images/001_bus.jpg,common,bus,bus,bus,bus,EMT Madrid street scene,verify-before-publishing,马德里电动公交车，前景有行人
-002,datasets/benchmark/images/002_yellowfrog.png,open,yellow cartoon creature,,yellow cartoon creature,yellow cartoon creature,3D Render / Meme culture,verify-before-publishing,两只3D渲染的黄色生物
-003,datasets/benchmark/images/003_redmoon.jpg,open,red moon,,red moon,red moon,Astrophotography sample,verify-before-publishing,血月右侧可见伴星
-004,datasets/benchmark/images/004_penguin.png,open,penguin,,penguin,penguin,VRChat / Game screenshot,verify-before-publishing,动漫头部与企鹅身体的混合模型
-005,datasets/benchmark/images/005_bikeandcloud.jpg,common,bicycle,bicycle,bicycle,bicycle,Xiaohongshu user v578681138,verify-before-publishing,骑行者剪影和积雨云
+common_001,datasets/benchmark/images/common_001_bus.jpg,common,bus,bus,bus,bus,EMT Madrid street scene,verify-before-publishing,公交车场景
+common_002,datasets/benchmark/images/common_002_bicycle.jpg,common,bicycle,bicycle,bicycle,bicycle,Xiaohongshu user v578681138,verify-before-publishing,骑行者剪影和积雨云背景
+common_003,datasets/benchmark/images/common_003_person.png,common,person,person,person,person,TODO - add source,verify-before-publishing,城市街道中的小目标人物
+common_004,datasets/benchmark/images/common_004_person.png,common,person,person,person,person,TODO - add source,verify-before-publishing,户外清晰人物
+common_005,datasets/benchmark/images/common_005_person.png,common,person,person,person,person,TODO - add source,verify-before-publishing,摩托车运动场景中的人物
+common_006,datasets/benchmark/images/common_006_person.jpg,common,person,person,person,person,TODO - add source,verify-before-publishing,卡通风格人物
+common_007,datasets/benchmark/images/common_007_car.png,common,car,car,car,car,TODO - add source,verify-before-publishing,汽车样本
+common_008,datasets/benchmark/images/common_008_truck.png,common,truck,truck,truck,truck,TODO - add source,verify-before-publishing,卡车样本
+common_009,datasets/benchmark/images/common_009_motorcycle.png,common,motorcycle,motorcycle,motorcycle,motorcycle,TODO - add source,verify-before-publishing,摩托车样本
+common_010,datasets/benchmark/images/common_010_person.png,common,person,person,person,person,TODO - add source,verify-before-publishing,体育场景人物
+common_011,datasets/benchmark/images/common_011_dog.png,common,dog,dog,dog,dog,TODO - add source,verify-before-publishing,狗样本
+common_012,datasets/benchmark/images/common_012_cat.png,common,cat,cat,cat,cat,TODO - add source,verify-before-publishing,猫样本
+common_013,datasets/benchmark/images/common_013_horse.png,common,horse,horse,horse,horse,TODO - add source,verify-before-publishing,马样本
+common_014,datasets/benchmark/images/common_014_bird.png,common,bird,bird,bird,bird,TODO - add source,verify-before-publishing,鸟样本
+common_015,datasets/benchmark/images/common_015_cow.png,common,cow,cow,cow,cow,TODO - add source,verify-before-publishing,牛样本
+common_016,datasets/benchmark/images/common_016_chair.png,common,chair,chair,chair,chair,TODO - add source,verify-before-publishing,椅子样本
+common_017,datasets/benchmark/images/common_017_bottle.png,common,bottle,bottle,bottle,bottle,TODO - add source,verify-before-publishing,瓶子样本
+common_018,datasets/benchmark/images/common_018_laptop.png,common,laptop,laptop,laptop,laptop,TODO - add source,verify-before-publishing,笔记本电脑样本
+common_019,datasets/benchmark/images/common_019_umbrella.png,common,umbrella,umbrella,umbrella,umbrella,TODO - add source,verify-before-publishing,雨伞样本
+common_020,datasets/benchmark/images/common_020_cup.png,common,cup,cup,cup,cup,TODO - add source,verify-before-publishing,杯子样本
+open_001,datasets/benchmark/images/open_001_yellow_cartoon_creature.png,open,yellow cartoon creature,,yellow cartoon creature,yellow cartoon creature,3D Render / Meme culture,verify-before-publishing,两只黄色卡通生物
+open_002,datasets/benchmark/images/open_002_penguin.png,open,penguin,,penguin,penguin,TODO - add source,verify-before-publishing,真实企鹅样本
+open_003,datasets/benchmark/images/open_003_cartoon_penguin.png,open,cartoon penguin,,cartoon penguin,cartoon penguin,VRChat / Game screenshot,verify-before-publishing,动漫头部与企鹅身体的混合模型
+open_004,datasets/benchmark/images/open_004_redpanda.png,open,red panda,,red panda,red panda,TODO - add source,verify-before-publishing,小熊猫样本
+open_005,datasets/benchmark/images/open_005_axolotl.png,open,axolotl,,axolotl,axolotl,TODO - add source,verify-before-publishing,美西螈样本
+open_006,datasets/benchmark/images/open_006_capybara.png,open,capybara,,capybara,capybara,TODO - add source,verify-before-publishing,水豚样本
+open_007,datasets/benchmark/images/open_007_mantis.png,open,praying mantis,,praying mantis,praying mantis,TODO - add source,verify-before-publishing,螳螂近景
+open_008,datasets/benchmark/images/open_008_cartoon_girl.png,open,cartoon girl,,cartoon girl,cartoon girl,TODO - add source,verify-before-publishing,卡通女孩样本
+open_009,datasets/benchmark/images/open_009_cartoon_robot.png,open,cartoon robot,,cartoon robot,cartoon robot,TODO - add source,verify-before-publishing,卡通机器人样本
+open_010,datasets/benchmark/images/open_010_cartoon_sheep.png,open,cartoon sheep,,cartoon sheep,cartoon sheep,TODO - add source,verify-before-publishing,卡通羊样本
+open_011,datasets/benchmark/images/open_011_red_moon.jpg,open,red moon,,red moon,red moon,Astrophotography sample,verify-before-publishing,红色月亮和伴星
+open_012,datasets/benchmark/images/open_012_tornado.png,open,tornado,,tornado,tornado,TODO - add source,verify-before-publishing,龙卷风样本
+open_013,datasets/benchmark/images/open_013_huge_cloud.jpg,open,cumulonimbus cloud,,cumulonimbus cloud,cumulonimbus cloud,TODO - add source,verify-before-publishing,巨大积雨云样本
+open_014,datasets/benchmark/images/open_014_lightning.png,open,lightning,,lightning,lightning,TODO - add source,verify-before-publishing,闪电样本
+open_015,datasets/benchmark/images/open_015_Earth.png,open,planet Earth,,planet Earth,planet Earth,TODO - add source,verify-before-publishing,高分辨率地球样本
+open_016,datasets/benchmark/images/open_016_guitar.png,open,guitar,,guitar,guitar,TODO - add source,verify-before-publishing,吉他样本
+open_017,datasets/benchmark/images/open_017_wind_turbine.png,open,wind turbine,,wind turbine,wind turbine,TODO - add source,verify-before-publishing,风力发电机样本
+open_018,datasets/benchmark/images/open_018_graphics_card.png,open,graphics card,,graphics card,graphics card,TODO - add source,verify-before-publishing,显卡样本
+open_019,datasets/benchmark/images/open_019_microscope.png,open,microscope,,microscope,microscope,TODO - add source,verify-before-publishing,显微镜样本
+open_020,datasets/benchmark/images/open_020_traffic_cone.png,open,traffic cone,,traffic cone,traffic cone,TODO - add source,verify-before-publishing,交通锥样本
