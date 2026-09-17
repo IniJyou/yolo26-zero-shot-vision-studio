@@ -20,6 +20,30 @@
 
 当前版本已完成图片、视频检测，以及包含 40 张图片和 80 行模型结果的正式对比实验。
 
+## 界面预览
+
+### 项目首页
+
+![YOLO26 Zero-Shot Vision Studio 首页](assets/screenshots/home.png)
+
+### YOLO26 固定类别图片检测
+
+在无需额外训练的情况下，YOLO26 使用 COCO 预训练类别检测常见目标，并返回标注图片、类别、置信度、坐标和耗时。
+
+![YOLO26 固定类别图片检测](assets/screenshots/yolo26-image.png)
+
+### YOLOE 开放词汇图片检测
+
+切换到 YOLOE 后，可以通过英文文本提示指定开放类别。下图使用 `milk frog` 作为提示词检测两个卡通目标。
+
+![YOLOE 开放词汇图片检测](assets/screenshots/yoloe-open-vocabulary.png)
+
+### YOLOE 开放词汇视频检测
+
+视频页面逐帧执行相同的零样本检测流程，并展示处理帧数、检测框合计、平均模型推理耗时和整体处理速度。
+
+![YOLOE 开放词汇视频检测](assets/screenshots/yoloe-video.png)
+
 ## 页面工作流程
 
 ```mermaid
@@ -342,7 +366,8 @@ python -m pytest -q
 ├── examples/                      # 可直接运行的学习示例
 ├── tests/                         # pytest 自动测试
 ├── benchmarks/                    # 评测清单、执行脚本、结果和统计报告
-├── assets/                        # 截图和演示素材
+├── assets/
+│   └── screenshots/               # README 页面与检测效果截图
 ├── docs/                          # 补充设计文档
 ├── weights/                       # 本地权重，不提交
 ├── datasets/                      # 本地数据集，默认不提交
@@ -374,7 +399,7 @@ python -m pytest -q
 - [x] Gradio 视频检测页面
 - [x] 至少 40 张图片的对比实验
 - [x] 实验 CSV、统计图和正式性能报告
-- [ ] README 截图和演示 GIF
+- [x] README 页面与检测效果截图
 
 ## 来源与致谢
 
