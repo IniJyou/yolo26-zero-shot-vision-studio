@@ -18,7 +18,7 @@
 - 对输入缺失、空提示词、非法参数和 CUDA 显存不足显示中文错误
 - 使用 pytest 和 Mock 覆盖核心逻辑，不依赖 GPU 运行单元测试
 
-当前版本已完成图片和视频检测，正式对比评测正在开发中。
+当前版本已完成图片、视频检测，以及包含 40 张图片和 80 行模型结果的正式对比实验。
 
 ## 页面工作流程
 
@@ -228,6 +228,64 @@ python examples\05_video_service.py
 
 实际数值会因硬件、运行状态、模型版本和参数变化。
 
+## Benchmark 实验
+
+### 实验设置
+
+正式实验包含 40 张图片，其中 20 张为 YOLO26 固定类别能够覆盖的 `common` 样本，另外 20 张为固定类别之外或更具挑战性的 `open` 样本。每张图片分别运行 YOLO26 和 YOLOE，共产生 80 行模型结果。
+
+- 设备：NVIDIA GeForce RTX 4060 Laptop GPU，8 GB 显存
+- 置信度阈值：`0.25`
+- IoU 阈值：`0.70`
+- 输入尺寸：`640`
+- 每个模型在正式计时前预热一次
+- 每张图片和每个模型组合进行一次计时推理
+
+### 目标命中率
+
+| 模型 | 分组 | 命中数 | 可评测样本数 | 目标命中率 |
+|---|---|---:|---:|---:|
+| YOLO26 | common | 20 | 20 | 100.0% |
+| YOLOE | common | 19 | 20 | 95.0% |
+| YOLOE | open | 6 | 20 | 30.0% |
+| YOLOE | 全部 | 25 | 40 | 62.5% |
+
+YOLO26 的预训练类别不覆盖 open 组目标，因此这些记录标记为 `eligible=0`，不作为失败样本，也不进入 YOLO26 命中率的分母。
+
+![目标命中率对比](benchmarks/results/report/hit_rate.png)
+
+### 延迟结果
+
+| 模型 | 样本数 | 平均模型推理 | 中位模型推理 | 平均端到端 | 中位端到端 |
+|---|---:|---:|---:|---:|---:|
+| YOLO26 | 40 | 14.87 ms | 15.27 ms | 41.18 ms | 34.21 ms |
+| YOLOE | 40 | 16.77 ms | 14.88 ms | 291.85 ms | 291.89 ms |
+
+![平均处理延迟](benchmarks/results/report/latency.png)
+
+YOLOE 多出的端到端耗时不全是模型内部推理。实验中 YOLOE 的提示词设置平均耗时为 136.56 ms；排除连续 `person` 提示的缓存命中后，新提示的平均设置耗时约为 147.63 ms。其余差异来自预测调用外围的预处理、后处理、同步和框架开销。两个模型的平均内部推理时间只相差约 1.90 ms。
+
+### 失败案例
+
+YOLOE 在 common 组唯一未命中的目标是 `bird`。在 20 个 open 样本中命中了 6 个目标：`yellow cartoon creature`、`red panda`、`axolotl`、`praying mantis`、`cumulonimbus cloud` 和 `wind turbine`。完整记录见 [`failures.csv`](benchmarks/results/report/failures.csv)。
+
+### 指标边界
+
+本实验中的“命中”只表示预测标签中出现了预期标签。当前数据集没有人工边界框真值，也没有检查预测框与真实目标之间的 IoU，因此“目标命中率”不能解释为分类准确率、Precision、Recall 或 mAP。即使类别名称正确，检测框的位置仍可能不准确。
+
+common 组数量较少且整体难度有限，YOLO26 的 100% 只表示它命中了本次 20 张 common 样本，不能代表模型在一般场景中的准确率为 100%。所有延迟也只代表本次硬件、软件版本、参数和单次实验；更严格的性能结论需要重复运行并报告分布。
+
+### 复现统计报告
+
+安装 benchmark 可选依赖后，可从已保存的 80 行原始结果重新生成三份汇总 CSV 和两张图表。该命令不会重新执行 GPU 推理：
+
+```powershell
+python -m pip install -e ".[dev,benchmark]"
+python benchmarks\summarize_results.py
+```
+
+正式 GPU 实验入口为 `benchmarks/run_benchmark.py`。本地数据集和模型权重不会提交到 GitHub；复现实验前需要自行准备权重和具有合法使用权的图片。
+
 ## 当前示例结果
 
 测试图片：Ultralytics `bus.jpg`；设备：RTX 4060 Laptop GPU；输入尺寸：640。
@@ -245,7 +303,7 @@ python examples\05_video_service.py
 python -m pytest -q
 ```
 
-当前版本共有 42 项测试，覆盖：
+当前版本共有 52 项测试，覆盖：
 
 - 配置参数校验
 - 输入文件与格式校验
@@ -258,6 +316,9 @@ python -m pytest -q
 - 视频元数据读取、逐帧处理和 H.264 输出
 - 视频服务、JSON 保存与进度回调
 - 图片和视频 Gradio 控制器的输入输出及异常处理
+- benchmark 清单、图片路径和重复 ID 校验
+- 结果 CSV 解析、`eligible`/`hit` 处理
+- 命中率、平均/中位延迟和失败案例统计
 
 大部分测试使用 Mock，不会加载真实权重或占用 GPU。真实模型集成通过 `examples/` 和 Web 页面手动验收。
 
@@ -280,7 +341,7 @@ python -m pytest -q
 │   └── __init__.py
 ├── examples/                      # 可直接运行的学习示例
 ├── tests/                         # pytest 自动测试
-├── benchmarks/                    # 后续对比评测
+├── benchmarks/                    # 评测清单、执行脚本、结果和统计报告
 ├── assets/                        # 截图和演示素材
 ├── docs/                          # 补充设计文档
 ├── weights/                       # 本地权重，不提交
@@ -311,8 +372,8 @@ python -m pytest -q
 - [x] 自动测试
 - [x] 视频逐帧检测与浏览器可播放输出
 - [x] Gradio 视频检测页面
-- [ ] 至少 40 张图片的对比实验
-- [ ] 实验 CSV、统计图和正式性能报告
+- [x] 至少 40 张图片的对比实验
+- [x] 实验 CSV、统计图和正式性能报告
 - [ ] README 截图和演示 GIF
 
 ## 来源与致谢
