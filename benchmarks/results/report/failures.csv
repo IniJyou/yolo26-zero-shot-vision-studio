@@ -1,0 +1,16 @@
+﻿sample_id,group,target_label,mode,expected_label,prompt,detection_count,detected_labels,inference_ms,end_to_end_ms
+common_014,common,bird,YOLOE,bird,bird,0,,12.89,411.09
+open_002,open,penguin,YOLOE,penguin,penguin,0,,17.26,304.83
+open_003,open,cartoon penguin,YOLOE,cartoon penguin,cartoon penguin,0,,29.7,300.67
+open_006,open,capybara,YOLOE,capybara,capybara,0,,13.81,288.85
+open_008,open,cartoon girl,YOLOE,cartoon girl,cartoon girl,0,,12.77,353.45
+open_009,open,cartoon robot,YOLOE,cartoon robot,cartoon robot,0,,16.47,282.53
+open_010,open,cartoon sheep,YOLOE,cartoon sheep,cartoon sheep,0,,25.4,290.95
+open_011,open,red moon,YOLOE,red moon,red moon,0,,26.18,372.02
+open_012,open,tornado,YOLOE,tornado,tornado,0,,24.04,298.14
+open_014,open,lightning,YOLOE,lightning,lightning,0,,15.36,417.62
+open_015,open,planet Earth,YOLOE,planet Earth,planet Earth,0,,14.3,353.36
+open_016,open,guitar,YOLOE,guitar,guitar,0,,18.35,298.5
+open_018,open,graphics card,YOLOE,graphics card,graphics card,0,,16.69,287.44
+open_019,open,microscope,YOLOE,microscope,microscope,0,,19.34,271.14
+open_020,open,traffic cone,YOLOE,traffic cone,traffic cone,0,,23.66,292.3

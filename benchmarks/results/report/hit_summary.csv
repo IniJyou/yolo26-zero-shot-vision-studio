@@ -1,0 +1,4 @@
+﻿mode,group,eligible_count,hit_count,miss_count,hit_rate
+YOLO26,common,20,20,0,1.0
+YOLOE,common,20,19,1,0.95
+YOLOE,open,20,6,14,0.3

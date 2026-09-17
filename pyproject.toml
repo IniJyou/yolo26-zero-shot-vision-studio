@@ -14,11 +14,15 @@ dependencies = [
     "imageio-ffmpeg==0.6.0",
 ]
 
+
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0,<10.0",
 ]
-
+benchmark = [
+  "matplotlib>=3.8,<4.0",
+]
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -31,3 +35,4 @@ norecursedirs = [
     "datasets",
     "weights",
 ]
+
